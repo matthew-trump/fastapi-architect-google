@@ -1,5 +1,5 @@
 
-export type Framework = 'FastAPI' | 'Django';
+export type Framework = 'FastAPI' | 'Django' | 'Firebase';
 
 export interface CodeFile {
   path: string;
