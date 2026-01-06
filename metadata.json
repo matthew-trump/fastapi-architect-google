@@ -1,5 +1,5 @@
 {
-  "name": "FastAPI Architect",
-  "description": "A professional-grade code generator and learning assistant for FastAPI developers, powered by Gemini 3 Flash.",
+  "name": "Backend Architect",
+  "description": "A comprehensive design engine for Python backends. Generates FastAPI and Django blueprints with integrated Docker, CI/CD, and deployment guides.",
   "requestFramePermissions": []
 }

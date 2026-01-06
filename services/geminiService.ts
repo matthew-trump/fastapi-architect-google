@@ -1,19 +1,26 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { GeneratedCode } from "../types";
+import { GeneratedCode, Framework } from "../types";
 
-export const generateFastAPICode = async (userPrompt: string): Promise<GeneratedCode> => {
+export const generateBackendCode = async (userPrompt: string, framework: Framework): Promise<GeneratedCode> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
   
+  const frameworkInstructions = framework === 'Django' 
+    ? "Generate a Django project structure including settings.py, urls.py, models.py, and views.py. Use Django's built-in ORM and migration system."
+    : "Generate a FastAPI project structure using SQLAlchemy (2.0+) for ORM and Alembic for migrations.";
+
   const response = await ai.models.generateContent({
     model: "gemini-3-pro-preview",
-    contents: `Generate a full-stack FastAPI Python architectural blueprint based on this request: ${userPrompt}. 
+    contents: `Generate a full-stack Python ${framework} architectural blueprint based on this request: ${userPrompt}. 
     
     The response must include:
-    1. A complete project structure using SQLAlchemy for ORM and Alembic for database migrations.
-    2. Multiple files (e.g., main.py, models.py, database.py, alembic.ini, and a sample migration env.py if necessary).
-    3. A GitHub Actions CI/CD pipeline in .github/workflows/main.yml with linting and pytest.
-    4. Comprehensive setup steps including 'alembic init', 'alembic revision --autogenerate', and 'alembic upgrade head'.`,
+    1. ${frameworkInstructions}
+    2. Multiple files structured logically (e.g., for Django: project settings, app models/views; for FastAPI: main.py, models.py, database.py).
+    3. A production-ready Dockerfile and a docker-compose.yml file. 
+       - The Dockerfile should use a multi-stage build or a slim Python image.
+       - The docker-compose.yml should include the application service and a PostgreSQL database service.
+    4. A GitHub Actions CI/CD pipeline in .github/workflows/main.yml with linting and pytest.
+    5. Comprehensive setup steps (including virtualenv, migrations, and docker-compose commands).`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -25,27 +32,27 @@ export const generateFastAPICode = async (userPrompt: string): Promise<Generated
             items: {
               type: Type.OBJECT,
               properties: {
-                path: { type: Type.STRING, description: "The relative path of the file (e.g., app/models.py)" },
+                path: { type: Type.STRING, description: "The relative path of the file" },
                 content: { type: Type.STRING, description: "The full source code or configuration of the file" }
               },
               required: ["path", "content"]
             }
           },
-          explanation: { type: Type.STRING, description: "A detailed explanation of the architecture, database schema, and migration strategy" },
+          explanation: { type: Type.STRING, description: "A detailed explanation of the chosen architecture" },
           dependencies: { 
             type: Type.ARRAY, 
             items: { type: Type.STRING },
-            description: "Required pip packages including fastapi, sqlalchemy, alembic, psycopg2-binary, pytest, etc."
+            description: "Required pip packages"
           },
           setupSteps: { 
             type: Type.ARRAY, 
             items: { type: Type.STRING },
-            description: "Terminal commands for environment setup, database initialization, and running the app"
+            description: "Terminal commands to run the app"
           }
         },
         required: ["files", "explanation", "dependencies", "setupSteps"],
       },
-      systemInstruction: "You are a world-class Senior Python Architect and DevOps Engineer. You specialize in FastAPI, SQLAlchemy (2.0+), Alembic, and modern CI/CD practices. Your code is clean, type-hinted, modular, and adheres to production-grade security standards. You provide full file contents that are ready to be saved and executed.",
+      systemInstruction: `You are a world-class Senior ${framework} and DevOps Architect. You write clean, type-hinted, modular code. You follow the latest best practices for ${framework} and Containerization (Docker) including security, scalability, and maintainability. Always ensure Docker configurations include health checks and non-root users for production safety.`,
     },
   });
 
