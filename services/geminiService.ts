@@ -17,10 +17,11 @@ export const generateBackendCode = async (userPrompt: string, framework: Framewo
     1. ${frameworkInstructions}
     2. Multiple files structured logically (e.g., for Django: project settings, app models/views; for FastAPI: main.py, models.py, database.py).
     3. A production-ready Dockerfile and a docker-compose.yml file. 
-       - The Dockerfile should use a multi-stage build or a slim Python image.
-       - The docker-compose.yml should include the application service and a PostgreSQL database service.
-    4. A GitHub Actions CI/CD pipeline in .github/workflows/main.yml with linting and pytest.
-    5. Comprehensive setup steps (including virtualenv, migrations, and docker-compose commands).`,
+       - The Dockerfile should use a multi-stage build or a slim Python image and support environment variables.
+       - The docker-compose.yml should include the application service and a PostgreSQL database service, using environment variables for sensitive data.
+    4. A .env.example file containing all required environment variables (e.g., DATABASE_URL, POSTGRES_USER, POSTGRES_PASSWORD, SECRET_KEY).
+    5. A GitHub Actions CI/CD pipeline in .github/workflows/main.yml with linting and pytest.
+    6. Comprehensive setup steps (including virtualenv, copying the .env file, migrations, and docker-compose commands).`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -52,7 +53,7 @@ export const generateBackendCode = async (userPrompt: string, framework: Framewo
         },
         required: ["files", "explanation", "dependencies", "setupSteps"],
       },
-      systemInstruction: `You are a world-class Senior ${framework} and DevOps Architect. You write clean, type-hinted, modular code. You follow the latest best practices for ${framework} and Containerization (Docker) including security, scalability, and maintainability. Always ensure Docker configurations include health checks and non-root users for production safety.`,
+      systemInstruction: `You are a world-class Senior ${framework} and DevOps Architect. You write clean, type-hinted, modular code. You follow the latest best practices for ${framework} and Containerization (Docker) including security, scalability, and maintainability. Always ensure configurations include health checks, non-root users, and secure environment variable management (using .env).`,
     },
   });
 

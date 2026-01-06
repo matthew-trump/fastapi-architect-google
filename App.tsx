@@ -116,8 +116,8 @@ const App: React.FC = () => {
                 {[
                   { label: 'Containerized (Docker)', icon: '🐳' },
                   { label: 'Cloud-Ready CI/CD', icon: '🚀' },
-                  { label: 'SQL Persistence', icon: '🗄️' },
-                  { label: 'Best-in-class Security', icon: '🛡️' },
+                  { label: 'Secure Env Management', icon: '🔑' },
+                  { label: 'PostgreSQL Persistence', icon: '🗄️' },
                 ].map((feature, i) => (
                   <li key={i} className="flex items-center gap-3 text-xs text-slate-400">
                     <span className="text-sm opacity-70">{feature.icon}</span>
@@ -261,15 +261,15 @@ const App: React.FC = () => {
                     </svg>
                   </div>
                   <h2 className="text-3xl font-bold text-white tracking-tight">How to "do" a Backend</h2>
-                  <p className="text-slate-400">A backend is a program that runs on your server. Follow these 4 steps to launch yours.</p>
+                  <p className="text-slate-400">A backend is a program that runs on your server. Secure environment management is handled automatically.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                   {[
-                    { title: "Define Requirements", desc: "Select FastAPI or Django and describe your database models and API endpoints in the architect panel.", icon: "🎯" },
-                    { title: "Generate Blueprint", desc: "Click build. Our AI generates the full source code, database migrations, and Docker configurations.", icon: "⚡" },
-                    { title: "Save Locally", desc: "Copy the generated files into a folder on your computer. This browser window is only for design.", icon: "💾" },
-                    { title: "Start Your Server", desc: "Run the provided Terminal or Docker commands to bring your API to life and start receiving traffic.", icon: "🌐" }
+                    { title: "Define Requirements", desc: "Select FastAPI or Django and describe your logic. We'll automatically handle secure .env generation.", icon: "🎯" },
+                    { title: "Generate Blueprint", desc: "Build a modular structure with integrated Docker, PostgreSQL, and secure configuration files.", icon: "⚡" },
+                    { title: "Save Locally", desc: "Copy files to your machine and create your .env file from the provided .env.example template.", icon: "💾" },
+                    { title: "Secure Launch", desc: "Run Docker commands. Your app will securely connect to the database using the variables you defined.", icon: "🌐" }
                   ].map((step, i) => (
                     <div key={i} className="bg-slate-900 border border-slate-800 p-6 rounded-2xl hover:border-indigo-500/50 transition-colors group">
                       <div className="text-2xl mb-4 group-hover:scale-110 transition-transform inline-block">{step.icon}</div>
@@ -293,7 +293,7 @@ const App: React.FC = () => {
       </main>
 
       <footer className="py-8 border-t border-slate-900 text-center text-slate-500 text-[10px] mt-auto uppercase tracking-widest font-medium bg-slate-950">
-        Backend Architect &bull; Design for Production &bull; Multi-Framework Engine
+        Backend Architect &bull; Design for Production &bull; Secure Env Management
       </footer>
     </div>
   );
