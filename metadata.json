@@ -1,0 +1,5 @@
+{
+  "name": "FastAPI Architect",
+  "description": "A professional-grade code generator and learning assistant for FastAPI developers, powered by Gemini 3 Flash.",
+  "requestFramePermissions": []
+}
